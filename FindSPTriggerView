@@ -1,0 +1,19 @@
+----------------------- Tablo Adından sp, view ve trigger bulma ------------------------------------
+ SELECT referencing_object_name = o.name,
+        referencing_object_type_desc = o.type_desc,
+        referenced_object_name = referenced_entity_name,
+        referenced_object_type_desc = o1.type_desc
+ FROM sys.sql_expression_dependencies sed
+     INNER JOIN sys.objects o ON sed.referencing_id = o.[object_id]
+     LEFT OUTER JOIN sys.objects o1 ON sed.referenced_id = o1.[object_id]
+ WHERE referenced_entity_name = 'ImportDeclarationDetail';
+ 
+ ----------------------- Exception hatasından Adından sp, view ve trigger bulma ---------------------- 
+
+SELECT obj.name as SPName,
+       obj.create_date as CreationDate,
+       obj.modify_date as LastUpdateDate
+   FROM sys.sql_modules modu
+        INNER JOIN sys.objects obj ON modu.object_id = obj.object_id
+  WHERE modu.definition LIKE '%Akreditif detayında%'
+  Order By obj.name;
